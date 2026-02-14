@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine?</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #fff0f3;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        #container, #celebration {
+            padding: 20px;
+            max-width: 600px;
+        }
+
+        .panda-img {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            margin-bottom: 15px;
+            border-radius: 20px;
+        }
+
+        h1 {
+            color: #ff4d6d;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 12px 28px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+            font-weight: bold;
+        }
+
+        #noBtn {
+            background-color: #adb5bd;
+            color: white;
+        }
+
+        #celebration {
+            display: none;
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .celebrate-msg {
+            color: #c9184a;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-top: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(255, 77, 109, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="container">
+        <img id="pandaDisplay" class="panda-img" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbm5pZmxueGR6Z3Z4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/v6aOjy0Qo1fIA/giphy.gif" alt="Panda">
+        
+        <h1 id="question">Will you be my Valentine? ❤️</h1>
+        
+        <div class="buttons">
+            <button id="yesBtn" onclick="celebrate()">Yes</button>
+            <button id="noBtn" onclick="handleNo()">No</button>
+        </div>
+    </div>
+
+    <div id="celebration">
+        <img class="panda-img" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbm5pZmxueGR6Z3Z4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/eat98YmPkLd5e/giphy.gif" alt="Happy Panda">
+        <div class="celebrate-msg">
+            Lets celebrate everyday as Valentine day for the rest of our lives 💖
+        </div>
+    </div>
+
+    <script>
+        let yesSize = 1.1;
+        let noCount = 0;
+
+        const pandaGifs = [
+            "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbm5pZmxueGR6Z3Z4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/v6aOjy0Qo1fIA/giphy.gif", // Neutral
+            "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbm5pZmxueGR6Z3Z4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/ISOckXUIs++ZO/giphy.gif", // Sad
+            "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbm5pZmxueGR6Z3Z4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/9Y5BbDSkSTiY8/giphy.gif", // Crying
+            "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbm5pZmxueGR6Z3Z4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/106L6XG1Lsh3BS/giphy.gif" // Angry
+        ];
+
+        const noTexts = [
+            "No", "Are you sure?", "Panda is getting sad...", "Please? 🥺", "Don't do this!", "You're making Panda cry!", "Click YES instead!"
+        ];
+
+        function handleNo() {
+            noCount++;
+            
+            // 1. Grow the Yes button
+            yesSize += 0.5;
+            const yesBtn = document.getElementById('yesBtn');
+            yesBtn.style.fontSize = yesSize + "rem";
+            yesBtn.style.padding = (yesSize * 10) + "px " + (yesSize * 22) + "px";
+
+            // 2. Cycle Panda Emotions
+            const pandaImg = document.getElementById('pandaDisplay');
+            if (noCount === 1) pandaImg.src = pandaGifs[1];
+            if (noCount === 3) pandaImg.src = pandaGifs[2];
+            if (noCount >= 5) pandaImg.src = pandaGifs[3];
+
+            // 3. Update No button text
+            const noBtn = document.getElementById('noBtn');
+            if (noCount < noTexts.length) {
+                noBtn.innerText = noTexts[noCount];
+            } else {
+                noBtn.innerText = "Okay, I give up! Click Yes!";
+            }
+        }
+
+        function celebrate() {
+            // Hide the question, show the message
+            document.getElementById('container').style.display = 'none';
+            document.getElementById('celebration').style.display = 'block';
+            
+            // Simple logic for a little extra color
+            document.body.style.backgroundColor = "#ffc8dd";
+        }
+    </script>
+</body>
+</html>
